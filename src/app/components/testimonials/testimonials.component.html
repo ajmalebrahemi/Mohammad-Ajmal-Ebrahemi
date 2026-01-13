@@ -1,0 +1,68 @@
+<div class="testimonials section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Client Testimonials</h2>
+      <p>What clients say about working with me</p>
+    </div>
+
+    <div class="testimonials-container">
+      <button 
+        class="testimonial-nav prev"
+        (click)="prevTestimonial()"
+        aria-label="Previous testimonial"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <div class="quote-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+              <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 6v1c0 1 0 1 1 1z"></path>
+            </svg>
+          </div>
+          <p class="testimonial-text">{{ currentTestimonial.text }}</p>
+          <div class="testimonial-rating">
+            <span 
+              class="star"
+              *ngFor="let _ of getStars(currentTestimonial.rating)"
+            >
+              ⭐
+            </span>
+          </div>
+        </div>
+        <div class="testimonial-author">
+          <img [src]="currentTestimonial.image" [alt]="currentTestimonial.name" class="author-image">
+          <div class="author-info">
+            <h4>{{ currentTestimonial.name }}</h4>
+            <p>{{ currentTestimonial.role }}, {{ currentTestimonial.company }}</p>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        class="testimonial-nav next"
+        (click)="nextTestimonial()"
+        aria-label="Next testimonial"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="testimonial-dots">
+      <button
+        *ngFor="let testimonial of testimonials; let i = index"
+        class="dot"
+        [class.active]="currentIndex() === i"
+        (click)="goToTestimonial(i)"
+        [attr.aria-label]="'Go to testimonial ' + (i + 1)"
+      ></button>
+    </div>
+  </div>
+</div>
+

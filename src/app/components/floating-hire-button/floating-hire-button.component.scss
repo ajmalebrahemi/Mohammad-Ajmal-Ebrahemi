@@ -1,0 +1,60 @@
+.floating-hire-btn {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-xl);
+  z-index: 999;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  animation: pulse 2s ease-in-out infinite;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 25px 30px -5px rgba(99, 102, 241, 0.4);
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+
+  .btn-text {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.875rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    justify-content: center;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.6);
+  }
+}
+

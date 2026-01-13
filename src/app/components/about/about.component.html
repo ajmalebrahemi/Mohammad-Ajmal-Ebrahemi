@@ -1,0 +1,57 @@
+<div class="about section">
+  <div class="container">
+    <div class="section-title">
+      <h2>About Me</h2>
+      <p>Passionate developer with a drive for excellence and innovation</p>
+    </div>
+
+    <div class="about-content">
+      <div class="about-text">
+        <h3>Hello! I'm a Full Stack Developer</h3>
+        <p>
+          With years of experience in modern web development, I specialize in creating 
+          high-performance, scalable applications that deliver exceptional user experiences. 
+          My expertise spans both frontend and backend technologies, allowing me to build 
+          complete solutions from concept to deployment.
+        </p>
+        <p>
+          I'm passionate about writing clean, maintainable code and staying up-to-date with 
+          the latest industry trends. Whether it's a complex enterprise application or a 
+          sleek portfolio website, I approach every project with dedication and attention to detail.
+        </p>
+        <p>
+          When I'm not coding, I enjoy contributing to open-source projects, learning new 
+          technologies, and helping fellow developers grow their skills.
+        </p>
+
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Projects Completed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">Happy Clients</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-features">
+        <div 
+          class="feature-card" 
+          *ngFor="let point of aboutPoints; let i = index"
+          [style.animation-delay]="(i * 0.1) + 's'"
+        >
+          <div class="feature-icon">{{ point.icon }}</div>
+          <h4>{{ point.title }}</h4>
+          <p>{{ point.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

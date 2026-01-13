@@ -1,0 +1,74 @@
+import { Component, OnInit, signal, effect } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+interface Skill {
+  name: string;
+  level: number;
+  icon: string;
+  category: 'frontend' | 'backend' | 'tools';
+}
+
+@Component({
+  selector: 'app-skills',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './skills.component.html',
+  styleUrl: './skills.component.scss'
+})
+export class SkillsComponent implements OnInit {
+  activeCategory = signal<'all' | 'frontend' | 'backend' | 'tools'>('all');
+  visibleSkills = signal<Skill[]>([]);
+
+  skills: Skill[] = [
+    // Frontend
+    { name: 'Angular', level: 95, icon: '⚡', category: 'frontend' },
+    { name: 'React', level: 90, icon: '⚛️', category: 'frontend' },
+    { name: 'TypeScript', level: 92, icon: '📘', category: 'frontend' },
+    { name: 'JavaScript', level: 95, icon: '🟨', category: 'frontend' },
+    { name: 'HTML/CSS', level: 98, icon: '🎨', category: 'frontend' },
+    { name: 'SCSS/SASS', level: 90, icon: '💅', category: 'frontend' },
+    { name: 'RxJS', level: 85, icon: '🔄', category: 'frontend' },
+    { name: 'Tailwind CSS', level: 88, icon: '🌊', category: 'frontend' },
+    
+    // Backend
+    { name: 'Node.js', level: 90, icon: '🟢', category: 'backend' },
+    { name: 'Express.js', level: 88, icon: '🚂', category: 'backend' },
+    { name: 'MongoDB', level: 85, icon: '🍃', category: 'backend' },
+    { name: 'PostgreSQL', level: 82, icon: '🐘', category: 'backend' },
+    { name: 'REST APIs', level: 92, icon: '🔌', category: 'backend' },
+    { name: 'GraphQL', level: 80, icon: '📊', category: 'backend' },
+    { name: 'Firebase', level: 85, icon: '🔥', category: 'backend' },
+    
+    // Tools
+    { name: 'Git', level: 90, icon: '📦', category: 'tools' },
+    { name: 'Docker', level: 75, icon: '🐳', category: 'tools' },
+    { name: 'AWS', level: 70, icon: '☁️', category: 'tools' },
+    { name: 'CI/CD', level: 80, icon: '🔄', category: 'tools' },
+    { name: 'Webpack', level: 85, icon: '📦', category: 'tools' },
+    { name: 'Jest', level: 82, icon: '🧪', category: 'tools' }
+  ];
+
+  ngOnInit(): void {
+    this.updateVisibleSkills();
+    
+    effect(() => {
+      this.activeCategory();
+      this.updateVisibleSkills();
+    });
+  }
+
+  updateVisibleSkills(): void {
+    if (this.activeCategory() === 'all') {
+      this.visibleSkills.set(this.skills);
+    } else {
+      this.visibleSkills.set(
+        this.skills.filter(skill => skill.category === this.activeCategory())
+      );
+    }
+  }
+
+  setCategory(category: 'all' | 'frontend' | 'backend' | 'tools'): void {
+    this.activeCategory.set(category);
+  }
+}
+
