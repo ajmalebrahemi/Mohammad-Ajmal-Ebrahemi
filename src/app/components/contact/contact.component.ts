@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { EmailService, ContactFormData } from '../../services/email.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,34 +15,62 @@ export class ContactComponent {
   isSubmitting = false;
   submitSuccess = false;
   submitError = false;
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private emailService: EmailService
+  ) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      service: [''],
+      subject: [''],
       message: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.contactForm.valid) {
       this.isSubmitting = true;
       this.submitError = false;
       this.submitSuccess = false;
+      this.errorMessage = '';
 
-      // Simulate form submission
-      setTimeout(() => {
-        console.log('Form submitted:', this.contactForm.value);
-        // In production, send to your backend API
+      try {
+        // Prepare form data for EmailJS
+        const formData: ContactFormData = {
+          from_name: this.contactForm.value.name,
+          from_email: this.contactForm.value.email,
+          phone: this.contactForm.value.phone || undefined,
+          service: this.contactForm.value.service || undefined,
+          subject: this.contactForm.value.subject || undefined,
+          message: this.contactForm.value.message
+        };
+
+        // Send email via EmailJS
+        const result = await this.emailService.sendContactEmail(formData);
+
+        if (result.success) {
+          this.submitSuccess = true;
+          this.contactForm.reset();
+
+          // Reset success message after 5 seconds
+          setTimeout(() => {
+            this.submitSuccess = false;
+          }, 5000);
+        } else {
+          this.submitError = true;
+          this.errorMessage = result.message;
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        this.submitError = true;
+        this.errorMessage = 'An unexpected error occurred. Please try again later.';
+      } finally {
         this.isSubmitting = false;
-        this.submitSuccess = true;
-        this.contactForm.reset();
-
-        // Reset success message after 5 seconds
-        setTimeout(() => {
-          this.submitSuccess = false;
-        }, 5000);
-      }, 1000);
+      }
     } else {
       this.contactForm.markAllAsTouched();
     }
@@ -53,6 +82,18 @@ export class ContactComponent {
 
   get emailControl() {
     return this.contactForm.get('email');
+  }
+
+  get phoneControl() {
+    return this.contactForm.get('phone');
+  }
+
+  get serviceControl() {
+    return this.contactForm.get('service');
+  }
+
+  get subjectControl() {
+    return this.contactForm.get('subject');
   }
 
   get messageControl() {

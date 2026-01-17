@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, effect } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Skill {
@@ -15,9 +15,8 @@ interface Skill {
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
-export class SkillsComponent implements OnInit {
+export class SkillsComponent {
   activeCategory = signal<'all' | 'frontend' | 'backend' | 'tools'>('all');
-  visibleSkills = signal<Skill[]>([]);
 
   skills: Skill[] = [
     // Frontend
@@ -48,24 +47,13 @@ export class SkillsComponent implements OnInit {
     { name: 'Jest', level: 82, icon: '🧪', category: 'tools' }
   ];
 
-  ngOnInit(): void {
-    this.updateVisibleSkills();
-    
-    effect(() => {
-      this.activeCategory();
-      this.updateVisibleSkills();
-    });
-  }
-
-  updateVisibleSkills(): void {
-    if (this.activeCategory() === 'all') {
-      this.visibleSkills.set(this.skills);
-    } else {
-      this.visibleSkills.set(
-        this.skills.filter(skill => skill.category === this.activeCategory())
-      );
+  visibleSkills = computed(() => {
+    const category = this.activeCategory();
+    if (category === 'all') {
+      return this.skills;
     }
-  }
+    return this.skills.filter(skill => skill.category === category);
+  });
 
   setCategory(category: 'all' | 'frontend' | 'backend' | 'tools'): void {
     this.activeCategory.set(category);

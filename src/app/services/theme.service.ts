@@ -5,17 +5,24 @@ import { Injectable, signal, effect } from '@angular/core';
 })
 export class ThemeService {
   private readonly THEME_KEY = 'portfolio-theme';
-  public theme = signal<'light' | 'dark'>('light');
+  public theme = signal<'light' | 'dark'>('dark');
 
   constructor() {
     // Load theme from localStorage on initialization
     const savedTheme = localStorage.getItem(this.THEME_KEY) as 'light' | 'dark' | null;
+    let initialTheme: 'light' | 'dark' = 'dark';
+    
     if (savedTheme) {
-      this.theme.set(savedTheme);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      this.theme.set(prefersDark ? 'dark' : 'light');
+      initialTheme = savedTheme;
+    }
+    
+    // Set initial theme
+    this.theme.set(initialTheme);
+    
+    // Apply theme immediately
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    if (!savedTheme) {
+      localStorage.setItem(this.THEME_KEY, initialTheme);
     }
 
     // Apply theme when it changes
