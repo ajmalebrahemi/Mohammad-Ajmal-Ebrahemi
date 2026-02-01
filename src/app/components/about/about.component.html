@@ -1,12 +1,12 @@
-<div class="about section">
+<div class="about section" #aboutSection>
   <div class="container">
     <div class="section-title">
-      <h2>About Me</h2>
-      <p>Passionate developer with a drive for excellence and innovation</p>
+      <h2 class="animate-on-scroll">About Me</h2>
+      <p class="animate-on-scroll">Passionate developer with a drive for excellence and innovation</p>
     </div>
 
     <div class="about-content">
-      <div class="about-text">
+      <div class="about-text animate-on-scroll">
         <h3>Hello! I'm a Full Stack Developer</h3>
         <p>
           With years of experience in modern web development, I specialize in creating 
@@ -25,15 +25,15 @@
         </p>
 
         <div class="about-stats">
-          <div class="stat-item">
+          <div class="stat-item animate-on-scroll" style="--delay: 0.1s">
             <div class="stat-number">10+</div>
             <div class="stat-label">Projects Completed</div>
           </div>
-          <div class="stat-item">
+          <div class="stat-item animate-on-scroll" style="--delay: 0.2s">
             <div class="stat-number">5+</div>
             <div class="stat-label">Happy Clients</div>
           </div>
-          <div class="stat-item">
+          <div class="stat-item animate-on-scroll" style="--delay: 0.3s">
             <div class="stat-number">3+</div>
             <div class="stat-label">Years Experience</div>
           </div>
@@ -42,9 +42,9 @@
 
       <div class="about-features">
         <div 
-          class="feature-card" 
+          class="feature-card animate-on-scroll" 
           *ngFor="let point of aboutPoints; let i = index"
-          [style.animation-delay]="(i * 0.1) + 's'"
+          [style.--delay]="(i * 0.1) + 's'"
         >
           <div class="feature-icon">{{ point.icon }}</div>
           <h4>{{ point.title }}</h4>

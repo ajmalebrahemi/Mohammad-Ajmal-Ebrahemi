@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollAnimationService } from '../../services/scroll-animation.service';
 
 @Component({
   selector: 'app-about',
@@ -8,7 +9,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
 })
-export class AboutComponent {
+export class AboutComponent implements AfterViewInit {
+  @ViewChild('aboutSection') aboutSection!: ElementRef;
   aboutPoints = [
     {
       icon: '💡',
@@ -31,5 +33,14 @@ export class AboutComponent {
       description: 'Your success is my priority. I ensure clear communication and timely delivery.'
     }
   ];
+
+  constructor(private scrollAnimationService: ScrollAnimationService) {}
+
+  ngAfterViewInit(): void {
+    if (this.aboutSection) {
+      const elements = this.aboutSection.nativeElement.querySelectorAll('.animate-on-scroll');
+      this.scrollAnimationService.observeElements(elements);
+    }
+  }
 }
 

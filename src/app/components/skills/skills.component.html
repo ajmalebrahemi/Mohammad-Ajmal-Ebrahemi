@@ -1,11 +1,11 @@
-<div class="skills section">
+<div class="skills section" #skillsSection>
   <div class="container">
     <div class="section-title">
-      <h2>Skills & Expertise</h2>
-      <p>Technologies and tools I work with to build amazing applications</p>
+      <h2 class="animate-on-scroll">Skills & Expertise</h2>
+      <p class="animate-on-scroll">Technologies and tools I work with to build amazing applications</p>
     </div>
 
-    <div class="skills-filter">
+    <div class="skills-filter animate-on-scroll">
       <button 
         class="filter-btn"
         [class.active]="activeCategory() === 'all'"
@@ -38,8 +38,9 @@
 
     <div class="skills-grid">
       <div 
-        class="skill-card"
-        *ngFor="let skill of visibleSkills()"
+        class="skill-card animate-on-scroll"
+        *ngFor="let skill of visibleSkills(); let i = index"
+        [style.--delay]="(i * 0.05) + 's'"
       >
         <div class="skill-header">
           <span class="skill-icon">{{ skill.icon }}</span>

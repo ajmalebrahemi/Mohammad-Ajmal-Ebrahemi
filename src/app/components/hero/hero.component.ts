@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScrollService } from '../../services/scroll.service';
 
+interface Particle {
+  x: number;
+  y: number;
+  delay: number;
+}
+
 @Component({
   selector: 'app-hero',
   standalone: true,
@@ -11,6 +17,8 @@ import { ScrollService } from '../../services/scroll.service';
 })
 export class HeroComponent implements OnInit {
   typedText = '';
+  particles: Particle[] = [];
+  
   private texts = [
     'Full-Stack Developer',
     'Accurate',
@@ -26,11 +34,24 @@ export class HeroComponent implements OnInit {
   private isDeleting = false;
   private typingSpeed = 70;
 
-  constructor(private scrollService: ScrollService) {}
+  constructor(private scrollService: ScrollService) {
+    this.generateParticles();
+  }
 
   ngOnInit(): void {
     this.fullText = this.texts[this.textIndex];
     this.typeText();
+  }
+
+  private generateParticles(): void {
+    const particleCount = 100;
+    for (let i = 0; i < particleCount; i++) {
+      this.particles.push({
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        delay: Math.random() * 5
+      });
+    }
   }
 
   private typeText(): void {

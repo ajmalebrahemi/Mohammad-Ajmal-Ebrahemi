@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollAnimationService } from '../../services/scroll-animation.service';
 
 interface Project {
   id: number;
@@ -19,7 +20,8 @@ interface Project {
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements AfterViewInit {
+  @ViewChild('projectsSection') projectsSection!: ElementRef;
   activeFilter = 'all';
   
   projects: Project[] = [
@@ -94,6 +96,15 @@ export class ProjectsComponent {
 
   setFilter(filter: string): void {
     this.activeFilter = filter;
+  }
+
+  constructor(private scrollAnimationService: ScrollAnimationService) {}
+
+  ngAfterViewInit(): void {
+    if (this.projectsSection) {
+      const elements = this.projectsSection.nativeElement.querySelectorAll('.animate-on-scroll');
+      this.scrollAnimationService.observeElements(elements);
+    }
   }
 }
 

@@ -3,6 +3,7 @@
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
+    <div class="particle" *ngFor="let i of particles" [style.left.%]="i.x" [style.top.%]="i.y" [style.animation-delay]="i.delay + 's'"></div>
   </div>
 
   <div class="container">

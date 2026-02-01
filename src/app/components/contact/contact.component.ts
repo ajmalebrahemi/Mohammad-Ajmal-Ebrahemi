@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EmailService, ContactFormData } from '../../services/email.service';
+import { ScrollAnimationService } from '../../services/scroll-animation.service';
 
 @Component({
   selector: 'app-contact',
@@ -10,7 +11,8 @@ import { EmailService, ContactFormData } from '../../services/email.service';
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss'
 })
-export class ContactComponent {
+export class ContactComponent implements AfterViewInit {
+  @ViewChild('contactSection') contactSection!: ElementRef;
   contactForm: FormGroup;
   isSubmitting = false;
   submitSuccess = false;
@@ -19,7 +21,8 @@ export class ContactComponent {
 
   constructor(
     private fb: FormBuilder,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private scrollAnimationService: ScrollAnimationService
   ) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -98,6 +101,13 @@ export class ContactComponent {
 
   get messageControl() {
     return this.contactForm.get('message');
+  }
+
+  ngAfterViewInit(): void {
+    if (this.contactSection) {
+      const elements = this.contactSection.nativeElement.querySelectorAll('.animate-on-scroll');
+      this.scrollAnimationService.observeElements(elements);
+    }
   }
 }
 

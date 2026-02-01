@@ -1,5 +1,6 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollAnimationService } from '../../services/scroll-animation.service';
 
 interface Skill {
   name: string;
@@ -15,7 +16,8 @@ interface Skill {
   templateUrl: './skills.component.html',
   styleUrl: './skills.component.scss'
 })
-export class SkillsComponent {
+export class SkillsComponent implements AfterViewInit {
+  @ViewChild('skillsSection') skillsSection!: ElementRef;
   activeCategory = signal<'all' | 'frontend' | 'backend' | 'tools'>('all');
 
   skills: Skill[] = [
@@ -57,6 +59,15 @@ export class SkillsComponent {
 
   setCategory(category: 'all' | 'frontend' | 'backend' | 'tools'): void {
     this.activeCategory.set(category);
+  }
+
+  constructor(private scrollAnimationService: ScrollAnimationService) {}
+
+  ngAfterViewInit(): void {
+    if (this.skillsSection) {
+      const elements = this.skillsSection.nativeElement.querySelectorAll('.animate-on-scroll');
+      this.scrollAnimationService.observeElements(elements);
+    }
   }
 }
 

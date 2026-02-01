@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollAnimationService } from '../../services/scroll-animation.service';
 
 interface WorkStep {
   icon: string;
@@ -14,7 +15,8 @@ interface WorkStep {
   templateUrl: './experience.component.html',
   styleUrl: './experience.component.scss'
 })
-export class ExperienceComponent {
+export class ExperienceComponent implements AfterViewInit {
+  @ViewChild('experienceSection') experienceSection!: ElementRef;
   workSteps: WorkStep[] = [
     {
       icon: '📋',
@@ -42,5 +44,14 @@ export class ExperienceComponent {
       description: 'Smooth deployment and ongoing support to ensure your project runs flawlessly in production.'
     }
   ];
+
+  constructor(private scrollAnimationService: ScrollAnimationService) {}
+
+  ngAfterViewInit(): void {
+    if (this.experienceSection) {
+      const elements = this.experienceSection.nativeElement.querySelectorAll('.animate-on-scroll');
+      this.scrollAnimationService.observeElements(elements);
+    }
+  }
 }
 

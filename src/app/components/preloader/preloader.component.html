@@ -1,11 +1,20 @@
 <div class="preloader">
+  <div class="preloader-background">
+    <div class="particle" *ngFor="let i of particles"></div>
+  </div>
   <div class="preloader-content">
-    <div class="loader">
-      <div class="loader-ring"></div>
-      <div class="loader-ring"></div>
-      <div class="loader-ring"></div>
+    <div class="loader-wrapper">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-center"></div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progress()"></div>
+      </div>
     </div>
-    <p class="loader-text">Loading...</p>
+    <p class="loader-text">{{ loadingText() }}</p>
   </div>
 </div>
 

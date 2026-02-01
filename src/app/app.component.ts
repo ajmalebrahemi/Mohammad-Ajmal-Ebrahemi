@@ -35,10 +35,26 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Simulate loading time
+    // Wait for all assets to load
+    if (document.readyState === 'complete') {
+      this.handleLoading();
+    } else {
+      window.addEventListener('load', () => {
+        this.handleLoading();
+      });
+    }
+    
+    // Fallback timeout
     setTimeout(() => {
       this.isLoading.set(false);
-    }, 1500);
+    }, 2500);
+  }
+
+  private handleLoading(): void {
+    // Ensure minimum loading time for smooth animation
+    setTimeout(() => {
+      this.isLoading.set(false);
+    }, 1200);
   }
 }
 
